@@ -1,0 +1,27 @@
+// 4단 푸터 + 하단 저작권 행
+export default function Footer({ dict }) {
+  return (
+    <footer className="border-t border-hairline bg-canvas px-6 pt-12">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 pb-12 sm:grid-cols-4">
+        {dict.footer.columns.map((col) => (
+          <div key={col.title} className="flex flex-col gap-3">
+            <p className="text-base font-medium text-ink">{col.title}</p>
+            <ul className="flex flex-col gap-2">
+              {col.links.map((link) => (
+                <li key={link}>
+                  <a href="#" className="text-sm font-medium text-mute hover:text-ink">
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div className="mx-auto max-w-6xl border-t border-hairline py-4">
+        <p className="text-[9px] font-medium text-mute">{dict.footer.copyright}</p>
+      </div>
+    </footer>
+  );
+}
