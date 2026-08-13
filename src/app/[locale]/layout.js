@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import Footer from "@/components/Footer";
 import PrimaryNav from "@/components/PrimaryNav";
 import UtilityBar from "@/components/UtilityBar";
+import { AuthProvider } from "@/context/AuthContext";
+import { CartProvider } from "@/context/CartContext";
+import { WishlistProvider } from "@/context/WishlistContext";
 import { getDictionary, locales } from "@/dictionaries";
 import "../globals.css";
 
@@ -39,10 +42,16 @@ export default async function LocaleLayout({ children, params }) {
   return (
     <html lang={locale} className={`${bebasNeue.variable} ${inter.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-canvas font-sans">
-        <UtilityBar dict={dict} />
-        <PrimaryNav locale={locale} dict={dict} />
-        <div className="flex flex-1 flex-col">{children}</div>
-        <Footer dict={dict} />
+        <AuthProvider>
+          <WishlistProvider>
+            <CartProvider>
+              <UtilityBar dict={dict} locale={locale} />
+              <PrimaryNav locale={locale} dict={dict} />
+              <div className="flex flex-1 flex-col">{children}</div>
+              <Footer dict={dict} />
+            </CartProvider>
+          </WishlistProvider>
+        </AuthProvider>
       </body>
     </html>
   );

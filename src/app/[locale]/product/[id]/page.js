@@ -1,8 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import ProductActions from "@/components/ProductActions";
 import { products } from "@/data/products";
 import { getDictionary } from "@/dictionaries";
+import { formatPrice } from "@/lib/currency";
+import { localizeProduct } from "@/lib/localize";
 
 export default async function ProductPage({ params }) {
   const { locale, id } = await params;
@@ -11,9 +14,8 @@ export default async function ProductPage({ params }) {
 
   if (!product) notFound();
 
-  const { name, nameEn, category, categoryEn, price, salePrice, image, emoji, swatches, type } = product;
-  const displayName = locale === "en" ? nameEn : name;
-  const displayCategory = locale === "en" ? categoryEn : category;
+  const { price, salePrice, image, emoji, type } = product;
+  const { displayName, displayCategory } = localizeProduct(product, locale);
   const isSale = Boolean(salePrice);
   const percentOff = isSale ? Math.round((1 - salePrice / price) * 100) : 0;
 
@@ -55,34 +57,18 @@ export default async function ProductPage({ params }) {
 
             {isSale ? (
               <p className="text-2xl font-medium">
-                <span className="text-sale">{salePrice.toLocaleString("ko-KR")}원</span>{" "}
-                <span className="text-mute line-through">{price.toLocaleString("ko-KR")}원</span>{" "}
+                <span className="text-sale">{formatPrice(salePrice, locale)}</span>{" "}
+                <span className="text-mute line-through">{formatPrice(price, locale)}</span>{" "}
                 <span className="text-sale">{percentOff}{dict.product.percentOffSuffix}</span>
               </p>
             ) : (
               <p className="text-2xl font-medium text-ink">
-                {price.toLocaleString("ko-KR")}원
+                {formatPrice(price, locale)}
               </p>
             )}
           </div>
 
-          {/* 컬러 스와치 */}
-          <div className="flex flex-col gap-2">
-            <p className="text-sm font-medium text-ink">{dict.product.color}</p>
-            <div className="flex gap-2">
-              {swatches.map((color, i) => (
-                <span
-                  key={color + i}
-                  className="h-5 w-5 rounded-full ring-1 ring-hairline"
-                  style={{ backgroundColor: color }}
-                />
-              ))}
-            </div>
-          </div>
-
-          <button className="h-12 w-full rounded-[30px] bg-ink text-sm font-medium text-white">
-            {dict.product.addToCart}
-          </button>
+          <ProductActions product={product} dict={dict} />
 
           {/* 상세 정보 아코디언 */}
           <div className="border-t border-hairline">

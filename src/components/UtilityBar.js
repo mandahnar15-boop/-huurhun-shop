@@ -1,5 +1,12 @@
-// 최상단 얇은 유틸리티 바 (매장/고객센터/가입/로그인 링크)
-export default function UtilityBar({ dict }) {
+"use client";
+
+import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
+
+// 최상단 얇은 유틸리티 바 — 매장/고객센터 링크 + 로그인 상태에 따른 회원가입/로그인/로그아웃
+export default function UtilityBar({ dict, locale }) {
+  const { user, isLoaded, signOut } = useAuth();
+
   return (
     <div className="hidden h-9 items-center justify-end gap-6 bg-soft-cloud px-6 text-xs font-medium text-ink sm:flex">
       {dict.utilityLinks.map((link) => (
@@ -7,6 +14,30 @@ export default function UtilityBar({ dict }) {
           {link}
         </a>
       ))}
+
+      {isLoaded && (
+        <>
+          {user ? (
+            <>
+              <span>
+                {dict.auth.greetingPrefix}, {user.email}
+              </span>
+              <button type="button" onClick={() => signOut()} className="hover:underline">
+                {dict.auth.logout}
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href={`/${locale}/signup`} className="hover:underline">
+                {dict.auth.signup}
+              </Link>
+              <Link href={`/${locale}/login`} className="hover:underline">
+                {dict.auth.login}
+              </Link>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }
