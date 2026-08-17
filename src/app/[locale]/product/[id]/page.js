@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ProductActions from "@/components/ProductActions";
+import ReviewSection from "@/components/ReviewSection";
 import { products } from "@/data/products";
 import { getDictionary } from "@/dictionaries";
 import { formatPrice } from "@/lib/currency";
@@ -68,7 +69,7 @@ export default async function ProductPage({ params }) {
             )}
           </div>
 
-          <ProductActions product={product} dict={dict} />
+          <ProductActions product={product} dict={dict} locale={locale} />
 
           {/* 상세 정보 아코디언 */}
           <div className="border-t border-hairline">
@@ -81,6 +82,8 @@ export default async function ProductPage({ params }) {
               </details>
             ))}
           </div>
+
+          <ReviewSection productId={product.id} dict={dict} />
         </div>
       </div>
     </main>

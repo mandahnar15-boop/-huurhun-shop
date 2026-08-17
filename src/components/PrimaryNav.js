@@ -36,53 +36,29 @@ export default function PrimaryNav({ locale, dict }) {
   }
 
   return (
-    <nav className="flex h-14 items-center justify-between border-b border-hairline-soft bg-canvas px-6">
-      <div className="flex items-center gap-3">
-        {/* 햄버거 버튼 — 모바일에서만 보임 */}
-        <button
-          type="button"
-          aria-label="Menu"
-          onClick={() => setIsMenuOpen(true)}
-          className="flex h-10 w-10 items-center justify-center text-ink md:hidden"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="3" y1="18" x2="21" y2="18" />
-          </svg>
-        </button>
+    <nav className="border-b border-hairline-soft bg-canvas">
+      <div className="flex h-14 items-center justify-between px-6">
+        <div className="flex items-center gap-3">
+          {/* 햄버거 버튼 — 모바일에서만 보임 */}
+          <button
+            type="button"
+            aria-label="Menu"
+            onClick={() => setIsMenuOpen(true)}
+            className="flex h-10 w-10 items-center justify-center text-ink md:hidden"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
 
-        <Link href={`/${locale}`} className="font-display text-2xl uppercase tracking-wide text-ink">
-          HUURHUN SHOP
-        </Link>
-      </div>
+          <Link href={`/${locale}`} className="font-display text-2xl uppercase tracking-wide text-ink">
+            HUURHUN SHOP
+          </Link>
+        </div>
 
-      <ul className="hidden items-center gap-8 text-sm font-medium md:flex">
-        {categories.map(({ slug }) => {
-          const href = `/${locale}/category/${slug}`;
-          const isActive = pathname === href;
-          const label = dict.nav[slug];
-
-          return (
-            <li key={slug}>
-              <Link
-                href={href}
-                className={
-                  isActive
-                    ? "border-b-2 border-ink pb-1 text-ink"
-                    : slug === "sale"
-                      ? "text-sale hover:text-sale-deep"
-                      : "text-ink hover:text-mute"
-                }
-              >
-                {label}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-
-      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3">
         {/* 언어 전환 */}
         <select
           aria-label="Language"
@@ -149,7 +125,34 @@ export default function PrimaryNav({ locale, dict }) {
             </span>
           )}
         </Link>
+        </div>
       </div>
+
+      {/* 카테고리 줄 — 데스크톱에서만, 항목이 많아서 가로 스크롤 */}
+      <ul className="hidden items-center gap-6 overflow-x-auto whitespace-nowrap border-t border-hairline-soft px-6 py-2 text-sm font-medium md:flex">
+        {categories.map(({ slug }) => {
+          const href = `/${locale}/category/${slug}`;
+          const isActive = pathname === href;
+          const label = dict.nav[slug];
+
+          return (
+            <li key={slug} className="shrink-0">
+              <Link
+                href={href}
+                className={
+                  isActive
+                    ? "border-b-2 border-ink pb-1 text-ink"
+                    : slug === "sale"
+                      ? "text-sale hover:text-sale-deep"
+                      : "text-ink hover:text-mute"
+                }
+              >
+                {label}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
 
       {/* 모바일 드로어 — 뒷배경 */}
       <div
@@ -199,7 +202,7 @@ export default function PrimaryNav({ locale, dict }) {
           />
         </form>
 
-        <ul className="flex flex-col gap-1 text-base font-medium">
+        <ul className="flex flex-1 flex-col gap-1 overflow-y-auto text-base font-medium">
           {categories.map(({ slug }) => {
             const href = `/${locale}/category/${slug}`;
             const isActive = pathname === href;
@@ -210,7 +213,7 @@ export default function PrimaryNav({ locale, dict }) {
                 <Link
                   href={href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`block py-3 ${
+                  className={`block py-2.5 ${
                     isActive
                       ? "text-ink"
                       : slug === "sale"
@@ -225,7 +228,7 @@ export default function PrimaryNav({ locale, dict }) {
           })}
         </ul>
 
-        <div className="mt-auto border-t border-hairline pt-6">
+        <div className="border-t border-hairline pt-6">
           <select
             aria-label="Language"
             value={locale}

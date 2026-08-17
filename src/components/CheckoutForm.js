@@ -3,9 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { bankAccount } from "@/data/bankAccount";
+import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { products } from "@/data/products";
+import { createClient } from "@/lib/supabase/client";
 import { formatPrice } from "@/lib/currency";
+import { localizeProduct } from "@/lib/localize";
 
 function makeOrderNumber() {
   const random = Math.floor(100000 + Math.random() * 900000);
@@ -14,11 +17,15 @@ function makeOrderNumber() {
 
 // 1단계: 배송 정보 입력 → 2단계: 계좌이체 안내 + "입금 완료" 확인
 // 실제 결제 게이트웨이는 없고, 계좌이체 후 셀러가 수동으로 입금을 확인하는 방식
+// "입금 완료했어요"를 누르면 Supabase orders 테이블에 주문이 저장됨
 export default function CheckoutForm({ dict, locale }) {
   const router = useRouter();
+  const { user } = useAuth();
   const { items, clearCart } = useCart();
   const [step, setStep] = useState("shipping");
   const [isConfirming, setIsConfirming] = useState(false);
+  const [error, setError] = useState("");
+  const [shipping, setShipping] = useState({ name: "", phone: "", address: "", memo: "" });
 
   const lines = items
     .map((item) => {
@@ -30,15 +37,47 @@ export default function CheckoutForm({ dict, locale }) {
     .filter(Boolean);
   const subtotal = lines.reduce((sum, line) => sum + line.unitPrice * line.qty, 0);
 
+  function updateField(field, value) {
+    setShipping((prev) => ({ ...prev, [field]: value }));
+  }
+
   function handleShippingSubmit(event) {
     event.preventDefault();
     setStep("payment");
   }
 
-  function handlePaymentConfirm() {
+  async function handlePaymentConfirm() {
     setIsConfirming(true);
+    setError("");
 
     const orderNumber = makeOrderNumber();
+    const orderItems = lines.map((line) => ({
+      id: line.id,
+      name: localizeProduct(line.product, locale).displayName,
+      color: line.color,
+      qty: line.qty,
+      unitPrice: line.unitPrice,
+    }));
+
+    const supabase = createClient();
+    const { error: insertError } = await supabase.from("orders").insert({
+      order_number: orderNumber,
+      customer_name: shipping.name,
+      phone: shipping.phone,
+      address: shipping.address,
+      memo: shipping.memo || null,
+      items: orderItems,
+      subtotal,
+      locale,
+      user_id: user?.id ?? null,
+    });
+
+    if (insertError) {
+      setIsConfirming(false);
+      setError(dict.auth.error);
+      return;
+    }
+
     clearCart();
 
     const query = new URLSearchParams({
@@ -74,6 +113,8 @@ export default function CheckoutForm({ dict, locale }) {
 
         <p className="mt-6 text-sm font-medium text-mute">{dict.checkout.bankTransfer.instruction}</p>
 
+        {error && <p className="mt-4 text-sm font-medium text-sale">{error}</p>}
+
         <div className="mt-8 flex flex-col gap-3">
           <button
             type="button"
@@ -106,6 +147,8 @@ export default function CheckoutForm({ dict, locale }) {
             <input
               type="text"
               required
+              value={shipping.name}
+              onChange={(event) => updateField("name", event.target.value)}
               className="h-12 border-b border-hairline bg-transparent px-1 text-base text-ink focus:border-ink focus:outline-none"
             />
           </label>
@@ -115,6 +158,8 @@ export default function CheckoutForm({ dict, locale }) {
             <input
               type="tel"
               required
+              value={shipping.phone}
+              onChange={(event) => updateField("phone", event.target.value)}
               className="h-12 border-b border-hairline bg-transparent px-1 text-base text-ink focus:border-ink focus:outline-none"
             />
           </label>
@@ -125,6 +170,8 @@ export default function CheckoutForm({ dict, locale }) {
               type="text"
               required
               placeholder={dict.checkout.addressPlaceholder}
+              value={shipping.address}
+              onChange={(event) => updateField("address", event.target.value)}
               className="h-12 border-b border-hairline bg-transparent px-1 text-base text-ink placeholder:text-mute focus:border-ink focus:outline-none"
             />
           </label>
@@ -133,6 +180,8 @@ export default function CheckoutForm({ dict, locale }) {
             <span className="text-sm font-medium text-ink">{dict.checkout.memo}</span>
             <input
               type="text"
+              value={shipping.memo}
+              onChange={(event) => updateField("memo", event.target.value)}
               className="h-12 border-b border-hairline bg-transparent px-1 text-base text-ink focus:border-ink focus:outline-none"
             />
           </label>

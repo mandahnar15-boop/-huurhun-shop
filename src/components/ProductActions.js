@@ -1,11 +1,13 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 
-// 컬러 선택 + 수량 조절 + 장바구니 담기 버튼 (클릭 상태가 필요해서 클라이언트 컴포넌트)
-export default function ProductActions({ product, dict }) {
+// 컬러 선택 + 수량 조절 + 장바구니 담기/바로 구매 버튼 (클릭 상태가 필요해서 클라이언트 컴포넌트)
+export default function ProductActions({ product, dict, locale }) {
+  const router = useRouter();
   const { addItem } = useCart();
   const { isWishlisted, toggleItem } = useWishlist();
   const wishlisted = isWishlisted(product.id);
@@ -17,6 +19,11 @@ export default function ProductActions({ product, dict }) {
     addItem(product.id, selectedColor, qty);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
+  }
+
+  function handleBuyNow() {
+    addItem(product.id, selectedColor, qty);
+    router.push(`/${locale}/checkout`);
   }
 
   return (
@@ -69,7 +76,7 @@ export default function ProductActions({ product, dict }) {
         <button
           type="button"
           onClick={handleAdd}
-          className="h-12 flex-1 rounded-[30px] bg-ink text-sm font-medium text-white"
+          className="h-12 flex-1 rounded-[30px] border border-ink text-sm font-medium text-ink"
         >
           {added ? dict.product.added : dict.product.addToCart}
         </button>
@@ -92,6 +99,14 @@ export default function ProductActions({ product, dict }) {
           </svg>
         </button>
       </div>
+
+      <button
+        type="button"
+        onClick={handleBuyNow}
+        className="h-12 w-full rounded-[30px] bg-ink text-sm font-medium text-white"
+      >
+        {dict.product.buyNow}
+      </button>
     </>
   );
 }

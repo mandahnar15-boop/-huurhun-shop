@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 
+const ADMIN_EMAIL = "mandahnar15@gmail.com";
+
 // 최상단 얇은 유틸리티 바 — 매장/고객센터 링크 + 로그인 상태에 따른 회원가입/로그인/로그아웃
 export default function UtilityBar({ dict, locale }) {
   const { user, isLoaded, signOut } = useAuth();
@@ -19,6 +21,14 @@ export default function UtilityBar({ dict, locale }) {
         <>
           {user ? (
             <>
+              {user.email === ADMIN_EMAIL && (
+                <Link href={`/${locale}/admin`} className="hover:underline">
+                  주문 관리
+                </Link>
+              )}
+              <Link href={`/${locale}/mypage`} className="hover:underline">
+                {dict.mypage.title}
+              </Link>
               <span>
                 {dict.auth.greetingPrefix}, {user.email}
               </span>

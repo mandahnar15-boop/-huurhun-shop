@@ -5,10 +5,12 @@ import { categories } from "@/data/categories";
 import { products } from "@/data/products";
 import { getDictionary } from "@/dictionaries";
 
-function getProductsForSlug(slug) {
-  if (slug === "new") return products.filter((p) => p.badge === "NEW");
-  if (slug === "sale") return products.filter((p) => Boolean(p.salePrice));
-  return products.filter((p) => p.type === slug);
+function getProductsForSlug(category) {
+  if (category.slug === "new") return products.filter((p) => p.badge === "NEW");
+  if (category.slug === "sale") return products.filter((p) => Boolean(p.salePrice));
+  // types가 있는 상위 카테고리는 그 안에 속한 하위 type들을 전부 모아서 보여줌
+  const matchTypes = category.types ?? [category.slug];
+  return products.filter((p) => matchTypes.includes(p.type));
 }
 
 export default async function CategoryPage({ params }) {
@@ -19,7 +21,7 @@ export default async function CategoryPage({ params }) {
   if (!category) notFound();
 
   const label = dict.nav[slug];
-  const filteredProducts = getProductsForSlug(slug);
+  const filteredProducts = getProductsForSlug(category);
 
   return (
     <main className="mx-auto w-full max-w-6xl px-6 py-10">
