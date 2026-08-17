@@ -19,6 +19,7 @@ export const products = [
     image: "/products/hoodie.jpg",
     emoji: "🧥",
     swatches: ["#111111", "#f5f5f5", "#707072"],
+    sizes: ["Free"],
   },
   {
     id: 2,
@@ -33,6 +34,7 @@ export const products = [
     image: "/products/denim.jpg",
     emoji: "👖",
     swatches: ["#111111", "#4b4b4d"],
+    sizes: ["S", "M", "L"],
   },
   {
     id: 3,
@@ -48,6 +50,7 @@ export const products = [
     image: "/products/knit-top.jpg",
     emoji: "🎽",
     swatches: ["#111111", "#ed1aa0", "#f5f5f5"],
+    sizes: ["S", "M", "L"],
   },
   {
     id: 4,
@@ -62,6 +65,7 @@ export const products = [
     image: "/products/check-skirt.jpg",
     emoji: "👗",
     swatches: ["#111111", "#707072"],
+    sizes: ["S", "M", "L"],
   },
   {
     id: 5,
@@ -78,6 +82,7 @@ export const products = [
     image: "/products/worker-jacket.jpg",
     emoji: "🧥",
     swatches: ["#111111", "#f5f5f5"],
+    sizes: ["Free"],
   },
   {
     id: 6,
@@ -93,6 +98,7 @@ export const products = [
     image: "/products/offshoulder-top.jpg",
     emoji: "👚",
     swatches: ["#111111", "#ed1aa0"],
+    sizes: ["S", "M", "L"],
   },
   {
     id: 7,
@@ -107,6 +113,7 @@ export const products = [
     image: "/products/tiedye-longsleeve.jpg",
     emoji: "👕",
     swatches: ["#111111", "#f5f5f5", "#9e9ea0"],
+    sizes: ["S", "M", "L"],
   },
   {
     id: 8,
@@ -121,5 +128,6 @@ export const products = [
     image: "/products/sneakers.jpg",
     emoji: "👟",
     swatches: ["#111111", "#707072"],
+    sizes: ["230", "235", "240", "245", "250", "255", "260"],
   },
 ];

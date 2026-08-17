@@ -66,6 +66,7 @@ const en = {
   emptyCategory: "No products yet.",
   product: {
     color: "Color",
+    size: "Size",
     quantity: "Quantity",
     addToCart: "Add to Bag",
     added: "Added to Bag",

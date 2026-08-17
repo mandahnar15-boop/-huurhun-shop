@@ -45,7 +45,7 @@ export default function CartView({ dict, locale }) {
           const { displayName: name } = localizeProduct(line.product, locale);
 
           return (
-            <div key={`${line.id}-${line.color}`} className="flex gap-4 border-b border-hairline pb-6">
+            <div key={`${line.id}-${line.color}-${line.size}`} className="flex gap-4 border-b border-hairline pb-6">
               <div className="relative h-24 w-24 shrink-0 bg-soft-cloud">
                 {line.product.image ? (
                   <Image src={line.product.image} alt={name} fill sizes="96px" className="object-cover" />
@@ -58,14 +58,17 @@ export default function CartView({ dict, locale }) {
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex flex-col gap-1">
                     <p className="text-base font-medium text-ink">{name}</p>
-                    <span
-                      className="h-3 w-3 rounded-full ring-1 ring-hairline"
-                      style={{ backgroundColor: line.color }}
-                    />
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="h-3 w-3 rounded-full ring-1 ring-hairline"
+                        style={{ backgroundColor: line.color }}
+                      />
+                      {line.size && <span className="text-xs font-medium text-mute">{line.size}</span>}
+                    </div>
                   </div>
                   <button
                     type="button"
-                    onClick={() => removeItem(line.id, line.color)}
+                    onClick={() => removeItem(line.id, line.color, line.size)}
                     className="text-sm font-medium text-mute hover:text-ink"
                   >
                     {dict.cart.remove}
@@ -77,7 +80,7 @@ export default function CartView({ dict, locale }) {
                     <button
                       type="button"
                       aria-label="-"
-                      onClick={() => updateQty(line.id, line.color, line.qty - 1)}
+                      onClick={() => updateQty(line.id, line.color, line.size, line.qty - 1)}
                       className="text-ink"
                     >
                       −
@@ -86,7 +89,7 @@ export default function CartView({ dict, locale }) {
                     <button
                       type="button"
                       aria-label="+"
-                      onClick={() => updateQty(line.id, line.color, line.qty + 1)}
+                      onClick={() => updateQty(line.id, line.color, line.size, line.qty + 1)}
                       className="text-ink"
                     >
                       +

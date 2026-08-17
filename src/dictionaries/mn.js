@@ -66,6 +66,7 @@ const mn = {
   emptyCategory: "Одоогоор бүтээгдэхүүн алга байна.",
   product: {
     color: "Өнгө",
+    size: "Хэмжээ",
     quantity: "Тоо ширхэг",
     addToCart: "Сагсанд нэмэх",
     added: "Сагсанд нэмэгдлээ",

@@ -55,6 +55,7 @@ export default function CheckoutForm({ dict, locale }) {
       id: line.id,
       name: localizeProduct(line.product, locale).displayName,
       color: line.color,
+      size: line.size,
       qty: line.qty,
       unitPrice: line.unitPrice,
     }));

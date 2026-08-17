@@ -12,17 +12,18 @@ export default function ProductActions({ product, dict, locale }) {
   const { isWishlisted, toggleItem } = useWishlist();
   const wishlisted = isWishlisted(product.id);
   const [selectedColor, setSelectedColor] = useState(product.swatches[0]);
+  const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
 
   function handleAdd() {
-    addItem(product.id, selectedColor, qty);
+    addItem(product.id, selectedColor, selectedSize, qty);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   }
 
   function handleBuyNow() {
-    addItem(product.id, selectedColor, qty);
+    addItem(product.id, selectedColor, selectedSize, qty);
     router.push(`/${locale}/checkout`);
   }
 
@@ -44,6 +45,27 @@ export default function ProductActions({ product, dict, locale }) {
                 outlineColor: selectedColor === color ? "var(--color-ink)" : "transparent",
               }}
             />
+          ))}
+        </div>
+      </div>
+
+      {/* 사이즈 */}
+      <div className="flex flex-col gap-2">
+        <p className="text-sm font-medium text-ink">{dict.product.size}</p>
+        <div className="flex flex-wrap gap-2">
+          {product.sizes.map((size) => (
+            <button
+              key={size}
+              type="button"
+              onClick={() => setSelectedSize(size)}
+              className={`h-10 min-w-10 rounded-[30px] border px-4 text-sm font-medium ${
+                selectedSize === size
+                  ? "border-ink bg-ink text-white"
+                  : "border-hairline text-ink"
+              }`}
+            >
+              {size}
+            </button>
           ))}
         </div>
       </div>

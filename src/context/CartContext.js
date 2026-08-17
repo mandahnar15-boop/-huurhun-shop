@@ -15,6 +15,10 @@ function readStoredCart() {
   }
 }
 
+function isSameLine(item, id, color, size) {
+  return item.id === id && item.color === color && item.size === size;
+}
+
 // 장바구니 상태를 앱 전체에서 쓸 수 있게 해주는 컨텍스트
 // 아직 로그인/DB가 없어서 이 브라우저의 localStorage에만 저장됨
 export function CartProvider({ children }) {
@@ -31,27 +35,27 @@ export function CartProvider({ children }) {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   }, [items, isLoaded]);
 
-  function addItem(id, color, qty = 1) {
+  function addItem(id, color, size, qty = 1) {
     setItems((prev) => {
-      const existing = prev.find((item) => item.id === id && item.color === color);
+      const existing = prev.find((item) => isSameLine(item, id, color, size));
       if (existing) {
         return prev.map((item) =>
-          item.id === id && item.color === color ? { ...item, qty: item.qty + qty } : item
+          isSameLine(item, id, color, size) ? { ...item, qty: item.qty + qty } : item
         );
       }
-      return [...prev, { id, color, qty }];
+      return [...prev, { id, color, size, qty }];
     });
   }
 
-  function updateQty(id, color, qty) {
+  function updateQty(id, color, size, qty) {
     setItems((prev) => {
-      if (qty < 1) return prev.filter((item) => !(item.id === id && item.color === color));
-      return prev.map((item) => (item.id === id && item.color === color ? { ...item, qty } : item));
+      if (qty < 1) return prev.filter((item) => !isSameLine(item, id, color, size));
+      return prev.map((item) => (isSameLine(item, id, color, size) ? { ...item, qty } : item));
     });
   }
 
-  function removeItem(id, color) {
-    setItems((prev) => prev.filter((item) => !(item.id === id && item.color === color)));
+  function removeItem(id, color, size) {
+    setItems((prev) => prev.filter((item) => !isSameLine(item, id, color, size)));
   }
 
   function clearCart() {

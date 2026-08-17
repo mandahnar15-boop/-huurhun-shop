@@ -66,6 +66,7 @@ const ko = {
   emptyCategory: "아직 등록된 상품이 없어요.",
   product: {
     color: "컬러",
+    size: "사이즈",
     quantity: "수량",
     addToCart: "장바구니 담기",
     added: "장바구니에 담았어요",
