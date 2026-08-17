@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CopyButton from "@/components/CopyButton";
 import { getDictionary } from "@/dictionaries";
 import { formatPrice } from "@/lib/currency";
 
@@ -19,7 +20,7 @@ export default async function OrderCompletePage({ params, searchParams }) {
       <div className="mb-10 flex w-full flex-col gap-3 border-y border-hairline py-6">
         <div className="flex items-center justify-between">
           <span className="text-sm font-medium text-mute">{dict.orderComplete.orderNumber}</span>
-          <span className="text-sm font-medium text-ink">{order}</span>
+          <CopyButton text={order} dict={dict} />
         </div>
         <div className="flex items-center justify-between">
           <span className="text-sm font-medium text-mute">{dict.orderComplete.total}</span>

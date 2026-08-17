@@ -136,6 +136,8 @@ const ko = {
     orderNumber: "주문번호",
     total: "결제금액",
     continueShopping: "쇼핑 계속하기",
+    copy: "복사",
+    copied: "복사됐어요",
   },
   disclosures: [
     { title: "상세 정보", body: "소재, 세탁 방법 등 상품 상세 정보가 여기에 들어갑니다." },

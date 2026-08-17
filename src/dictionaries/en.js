@@ -136,6 +136,8 @@ const en = {
     orderNumber: "Order Number",
     total: "Total",
     continueShopping: "Continue Shopping",
+    copy: "Copy",
+    copied: "Copied",
   },
   disclosures: [
     { title: "Product Details", body: "Material, care instructions, and other product details go here." },
