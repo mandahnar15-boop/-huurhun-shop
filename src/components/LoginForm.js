@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { createClient } from "@/lib/supabase/client";
 
-// 로그인 폼 (Supabase 이메일/비밀번호 로그인)
+// 로그인 폼 (Supabase 이메일/비밀번호 로그인) + 비밀번호 재설정 요청
 export default function LoginForm({ dict, locale }) {
   const router = useRouter();
   const { signIn } = useAuth();
@@ -13,6 +14,7 @@ export default function LoginForm({ dict, locale }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [resetMessage, setResetMessage] = useState("");
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -27,6 +29,19 @@ export default function LoginForm({ dict, locale }) {
       return;
     }
     router.push(`/${locale}`);
+  }
+
+  async function handleForgotPassword() {
+    if (!email) {
+      setError(dict.auth.enterEmailFirst);
+      return;
+    }
+    setError("");
+    const supabase = createClient();
+    await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/${locale}/reset-password`,
+    });
+    setResetMessage(dict.auth.resetEmailSent);
   }
 
   return (
@@ -57,6 +72,7 @@ export default function LoginForm({ dict, locale }) {
         </label>
 
         {error && <p className="text-sm font-medium text-sale">{error}</p>}
+        {resetMessage && <p className="text-sm font-medium text-success">{resetMessage}</p>}
 
         <button
           type="submit"
@@ -64,6 +80,14 @@ export default function LoginForm({ dict, locale }) {
           className="h-12 w-full rounded-[30px] bg-ink text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
         >
           {dict.auth.loginSubmit}
+        </button>
+
+        <button
+          type="button"
+          onClick={handleForgotPassword}
+          className="text-sm font-medium text-mute underline hover:text-ink"
+        >
+          {dict.auth.forgotPassword}
         </button>
       </form>
 
