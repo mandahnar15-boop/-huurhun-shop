@@ -2,6 +2,7 @@ import { Bebas_Neue, Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import Footer from "@/components/Footer";
 import PrimaryNav from "@/components/PrimaryNav";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 import UtilityBar from "@/components/UtilityBar";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
@@ -49,6 +50,7 @@ export default async function LocaleLayout({ children, params }) {
               <PrimaryNav locale={locale} dict={dict} />
               <div className="flex flex-1 flex-col">{children}</div>
               <Footer dict={dict} />
+              <ScrollToTopButton />
             </CartProvider>
           </WishlistProvider>
         </AuthProvider>
