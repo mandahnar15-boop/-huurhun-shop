@@ -49,7 +49,7 @@ export default async function LocaleLayout({ children, params }) {
               <UtilityBar dict={dict} locale={locale} />
               <PrimaryNav locale={locale} dict={dict} />
               <div className="flex flex-1 flex-col">{children}</div>
-              <Footer dict={dict} />
+              <Footer dict={dict} locale={locale} />
               <ScrollToTopButton />
             </CartProvider>
           </WishlistProvider>

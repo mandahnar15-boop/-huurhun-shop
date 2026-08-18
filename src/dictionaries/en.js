@@ -146,12 +146,73 @@ const en = {
   ],
   footer: {
     columns: [
-      { title: "Resources", links: ["Size Guide", "Shipping Info", "Exchanges & Returns"] },
-      { title: "Help", links: ["FAQ", "Contact Us", "Find a Store"] },
-      { title: "Company", links: ["Our Story", "Careers", "Sustainability"] },
-      { title: "Promotions", links: ["Membership Perks", "Coupons", "Events"] },
+      {
+        title: "Resources",
+        links: [
+          { label: "Size Guide", href: "/size-guide" },
+          { label: "Shipping Info", href: "/shipping" },
+          { label: "Exchanges & Returns", href: "/returns" },
+        ],
+      },
+      {
+        title: "Help",
+        links: [
+          { label: "FAQ", href: "#" },
+          { label: "Contact Us", href: "#" },
+          { label: "Find a Store", href: "#" },
+        ],
+      },
+      {
+        title: "Company",
+        links: [
+          { label: "Our Story", href: "#" },
+          { label: "Careers", href: "#" },
+          { label: "Sustainability", href: "#" },
+        ],
+      },
+      {
+        title: "Promotions",
+        links: [
+          { label: "Membership Perks", href: "#" },
+          { label: "Coupons", href: "#" },
+          { label: "Events", href: "#" },
+        ],
+      },
     ],
     copyright: "© 2026 HUURHUN SHOP. All rights reserved.",
+  },
+  pages: {
+    sizeGuide: {
+      title: "Size Guide",
+      intro: "Measurements may vary by 1-2cm between items. If you prefer a looser fit, we recommend sizing up.",
+      clothingTitle: "Clothing Size Chart (cm)",
+      clothingHeaders: ["Size", "Shoulder", "Bust", "Length"],
+      clothingRows: [
+        ["S", "38", "88", "60"],
+        ["M", "40", "92", "62"],
+        ["L", "42", "96", "64"],
+      ],
+      freeSizeNote: "Free-size items have an oversized fit and comfortably suit most M-L body types.",
+      shoeTitle: "Shoe Size Chart (mm)",
+      shoeNote: "Available in 230 / 235 / 240 / 245 / 250 / 255 / 260. Please choose your usual size.",
+    },
+    shipping: {
+      title: "Shipping Info",
+      sections: [
+        { heading: "Delivery Time", body: "Delivered within 2-5 days after payment is confirmed. 1-2 days within Ulaanbaatar, 3-5 days for other regions." },
+        { heading: "Shipping Fee", body: "Shipping is 5,000₩, and free on orders over 50,000₩." },
+        { heading: "Tracking", body: "Once your order ships, you can check its status on your My Page." },
+      ],
+    },
+    returns: {
+      title: "Exchanges & Returns",
+      sections: [
+        { heading: "Return Window", body: "Please request an exchange or return within 7 days of receiving your order." },
+        { heading: "Condition", body: "Items must be unworn, unwashed, and have their original tags attached." },
+        { heading: "Non-Returnable Items", body: "Sale items and hygiene-sensitive products (underwear, socks, etc.) cannot be exchanged or returned." },
+        { heading: "Refund Method", body: "Once we confirm your return, we'll refund it to the bank account you paid from." },
+      ],
+    },
   },
 };
 

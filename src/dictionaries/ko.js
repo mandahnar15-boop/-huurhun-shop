@@ -146,12 +146,73 @@ const ko = {
   ],
   footer: {
     columns: [
-      { title: "자료", links: ["사이즈 가이드", "배송 안내", "교환/반품"] },
-      { title: "고객지원", links: ["자주 묻는 질문", "1:1 문의", "매장 찾기"] },
-      { title: "회사 소개", links: ["브랜드 스토리", "채용", "지속가능성"] },
-      { title: "프로모션", links: ["멤버십 혜택", "쿠폰함", "이벤트"] },
+      {
+        title: "자료",
+        links: [
+          { label: "사이즈 가이드", href: "/size-guide" },
+          { label: "배송 안내", href: "/shipping" },
+          { label: "교환/반품", href: "/returns" },
+        ],
+      },
+      {
+        title: "고객지원",
+        links: [
+          { label: "자주 묻는 질문", href: "#" },
+          { label: "1:1 문의", href: "#" },
+          { label: "매장 찾기", href: "#" },
+        ],
+      },
+      {
+        title: "회사 소개",
+        links: [
+          { label: "브랜드 스토리", href: "#" },
+          { label: "채용", href: "#" },
+          { label: "지속가능성", href: "#" },
+        ],
+      },
+      {
+        title: "프로모션",
+        links: [
+          { label: "멤버십 혜택", href: "#" },
+          { label: "쿠폰함", href: "#" },
+          { label: "이벤트", href: "#" },
+        ],
+      },
     ],
     copyright: "© 2026 HUURHUN SHOP. All rights reserved.",
+  },
+  pages: {
+    sizeGuide: {
+      title: "사이즈 가이드",
+      intro: "제품마다 약간의 오차(1~2cm)가 있을 수 있어요. 평소 사이즈보다 여유있게 입는 걸 좋아하신다면 한 치수 큰 사이즈를 추천해요.",
+      clothingTitle: "의류 사이즈표 (cm)",
+      clothingHeaders: ["사이즈", "어깨너비", "가슴둘레", "총장"],
+      clothingRows: [
+        ["S", "38", "88", "60"],
+        ["M", "40", "92", "62"],
+        ["L", "42", "96", "64"],
+      ],
+      freeSizeNote: "Free 사이즈 상품은 오버사이즈 핏으로, 대부분 M~L 체형에 여유있게 맞아요.",
+      shoeTitle: "신발 사이즈표 (mm)",
+      shoeNote: "230 / 235 / 240 / 245 / 250 / 255 / 260 사이즈로 제공돼요. 평소 신는 사이즈를 선택해주세요.",
+    },
+    shipping: {
+      title: "배송 안내",
+      sections: [
+        { heading: "배송 기간", body: "입금 확인 후 2~5일 이내에 배송돼요. 울란바토르 시내는 1~2일, 그 외 지역은 3~5일 정도 소요돼요." },
+        { heading: "배송비", body: "배송비는 5,000원이며, 50,000원 이상 구매 시 무료로 배송해드려요." },
+        { heading: "배송 조회", body: "배송이 시작되면 마이페이지에서 주문 상태를 확인할 수 있어요." },
+      ],
+    },
+    returns: {
+      title: "교환/반품 안내",
+      sections: [
+        { heading: "교환/반품 기간", body: "상품 수령 후 7일 이내에 신청해주세요." },
+        { heading: "조건", body: "미착용, 미세탁 상태여야 하며 상품 태그가 그대로 붙어있어야 해요." },
+        { heading: "교환/반품 불가", body: "세일 상품, 속옷/양말류 등 위생상 문제가 될 수 있는 상품은 교환/반품이 어려워요." },
+        { heading: "환불 방법", body: "반품 확인 후 결제하신 계좌로 환불해드려요." },
+      ],
+    },
   },
 };
 

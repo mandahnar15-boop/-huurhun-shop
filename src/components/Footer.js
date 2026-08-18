@@ -1,5 +1,7 @@
+import Link from "next/link";
+
 // 4단 푸터 + 하단 저작권 행
-export default function Footer({ dict }) {
+export default function Footer({ dict, locale }) {
   return (
     <footer className="border-t border-hairline bg-canvas px-6 pt-12">
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 pb-12 sm:grid-cols-4">
@@ -8,10 +10,13 @@ export default function Footer({ dict }) {
             <p className="text-base font-medium text-ink">{col.title}</p>
             <ul className="flex flex-col gap-2">
               {col.links.map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-sm font-medium text-mute hover:text-ink">
-                    {link}
-                  </a>
+                <li key={link.label}>
+                  <Link
+                    href={link.href.startsWith("/") ? `/${locale}${link.href}` : link.href}
+                    className="text-sm font-medium text-mute hover:text-ink"
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
