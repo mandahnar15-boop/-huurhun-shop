@@ -158,8 +158,8 @@ const ko = {
         title: "고객지원",
         links: [
           { label: "자주 묻는 질문", href: "#" },
-          { label: "1:1 문의", href: "#" },
-          { label: "매장 찾기", href: "#" },
+          { label: "WhatsApp 문의", href: "https://wa.me/97689834771" },
+          { label: "Telegram 문의", href: "https://t.me/+97689834771" },
         ],
       },
       {

@@ -158,8 +158,8 @@ const en = {
         title: "Help",
         links: [
           { label: "FAQ", href: "#" },
-          { label: "Contact Us", href: "#" },
-          { label: "Find a Store", href: "#" },
+          { label: "WhatsApp", href: "https://wa.me/97689834771" },
+          { label: "Telegram", href: "https://t.me/+97689834771" },
         ],
       },
       {

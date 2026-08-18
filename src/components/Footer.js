@@ -9,16 +9,22 @@ export default function Footer({ dict, locale }) {
           <div key={col.title} className="flex flex-col gap-3">
             <p className="text-base font-medium text-ink">{col.title}</p>
             <ul className="flex flex-col gap-2">
-              {col.links.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href.startsWith("/") ? `/${locale}${link.href}` : link.href}
-                    className="text-sm font-medium text-mute hover:text-ink"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              {col.links.map((link) => {
+                const isExternal = link.href.startsWith("http");
+                const href = link.href.startsWith("/") ? `/${locale}${link.href}` : link.href;
+                return (
+                  <li key={link.label}>
+                    <Link
+                      href={href}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noopener noreferrer" : undefined}
+                      className="text-sm font-medium text-mute hover:text-ink"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         ))}

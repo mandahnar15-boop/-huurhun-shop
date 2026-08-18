@@ -158,8 +158,8 @@ const mn = {
         title: "Тусламж",
         links: [
           { label: "Түгээмэл асуулт", href: "#" },
-          { label: "Холбоо барих", href: "#" },
-          { label: "Дэлгүүр хайх", href: "#" },
+          { label: "WhatsApp-аар холбогдох", href: "https://wa.me/97689834771" },
+          { label: "Telegram-аар холбогдох", href: "https://t.me/+97689834771" },
         ],
       },
       {
