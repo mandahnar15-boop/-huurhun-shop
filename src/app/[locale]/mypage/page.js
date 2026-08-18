@@ -53,12 +53,33 @@ export default async function MyPage({ params }) {
               <div className="flex flex-col gap-1 border-t border-hairline pt-3 text-sm">
                 {order.items.map((item, i) => (
                   <p key={i} className="text-ink">
-                    {item.name} × {item.qty}
+                    {item.name} {item.size ? `(${item.size})` : ""} × {item.qty}
                   </p>
                 ))}
                 <p className="mt-1 font-medium text-ink">
                   {dict.mypage.total} {formatPrice(order.subtotal, order.locale)}
                 </p>
+              </div>
+
+              <div className="flex flex-col gap-1 border-t border-hairline pt-3 text-sm">
+                <p className="text-ink">
+                  <span className="text-mute">{dict.checkout.name} </span>
+                  {order.customer_name}
+                </p>
+                <p className="text-ink">
+                  <span className="text-mute">{dict.checkout.phone} </span>
+                  {order.phone}
+                </p>
+                <p className="text-ink">
+                  <span className="text-mute">{dict.checkout.address} </span>
+                  {order.address}
+                </p>
+                {order.memo && (
+                  <p className="text-ink">
+                    <span className="text-mute">{dict.checkout.memo} </span>
+                    {order.memo}
+                  </p>
+                )}
               </div>
 
               <p className="text-xs font-medium text-mute">
