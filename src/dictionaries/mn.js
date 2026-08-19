@@ -64,6 +64,12 @@ const mn = {
   },
   breadcrumbHome: "Нүүр",
   emptyCategory: "Одоогоор бүтээгдэхүүн алга байна.",
+  sort: {
+    newest: "Шинээр нэмэгдсэн",
+    priceAsc: "Үнэ: Багаас их",
+    priceDesc: "Үнэ: Ихээс бага",
+    popular: "Их үнэлэгдсэн",
+  },
   product: {
     color: "Өнгө",
     size: "Хэмжээ",

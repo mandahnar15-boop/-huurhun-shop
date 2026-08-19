@@ -64,6 +64,12 @@ const en = {
   },
   breadcrumbHome: "Home",
   emptyCategory: "No products yet.",
+  sort: {
+    newest: "Newest",
+    priceAsc: "Price: Low to High",
+    priceDesc: "Price: High to Low",
+    popular: "Most Popular",
+  },
   product: {
     color: "Color",
     size: "Size",

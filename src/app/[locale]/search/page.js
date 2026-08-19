@@ -1,12 +1,13 @@
 import ProductCard from "@/components/ProductCard";
+import SortSelect from "@/components/SortSelect";
 import { getDictionary } from "@/dictionaries";
 import { localizeProduct } from "@/lib/localize";
-import { getProducts } from "@/lib/products";
+import { getProducts, getReviewCounts, sortProducts } from "@/lib/products";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function SearchPage({ params, searchParams }) {
   const { locale } = await params;
-  const { q } = await searchParams;
+  const { q, sort } = await searchParams;
   const dict = getDictionary(locale);
   const query = (q ?? "").trim().toLowerCase();
   const supabase = await createClient();
@@ -22,17 +23,24 @@ export default async function SearchPage({ params, searchParams }) {
       })
     : [];
 
+  const popularityMap =
+    sort === "popular" ? await getReviewCounts(supabase, results.map((p) => p.id)) : {};
+  const sortedResults = sortProducts(results, sort ?? "newest", popularityMap);
+
   return (
     <main className="mx-auto w-full max-w-6xl px-6 py-10">
-      <h1 className="mb-8 text-[32px] font-medium text-ink">
-        {dict.search.resultsFor} &ldquo;{q}&rdquo;
-      </h1>
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <h1 className="text-[32px] font-medium text-ink">
+          {dict.search.resultsFor} &ldquo;{q}&rdquo;
+        </h1>
+        {sortedResults.length > 0 && <SortSelect dict={dict} />}
+      </div>
 
-      {results.length === 0 ? (
+      {sortedResults.length === 0 ? (
         <p className="text-sm font-medium text-mute">{dict.search.empty}</p>
       ) : (
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-          {results.map((product) => (
+          {sortedResults.map((product) => (
             <ProductCard key={product.id} product={product} locale={locale} dict={dict} />
           ))}
         </div>

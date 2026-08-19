@@ -35,3 +35,35 @@ export async function getProductsByIds(supabase, ids) {
   const { data } = await supabase.from("products").select("*").in("id", ids);
   return (data ?? []).map(mapProductRow);
 }
+
+// 상품별 리뷰 개수를 세서 "인기순" 정렬의 기준으로 씀
+export async function getReviewCounts(supabase, productIds) {
+  if (productIds.length === 0) return {};
+  const { data } = await supabase.from("reviews").select("product_id").in("product_id", productIds);
+  const counts = {};
+  for (const row of data ?? []) {
+    counts[row.product_id] = (counts[row.product_id] ?? 0) + 1;
+  }
+  return counts;
+}
+
+export function sortProducts(products, sort, popularityMap = {}) {
+  const sorted = [...products];
+
+  switch (sort) {
+    case "priceAsc":
+      sorted.sort((a, b) => (a.salePrice ?? a.price) - (b.salePrice ?? b.price));
+      break;
+    case "priceDesc":
+      sorted.sort((a, b) => (b.salePrice ?? b.price) - (a.salePrice ?? a.price));
+      break;
+    case "popular":
+      sorted.sort((a, b) => (popularityMap[b.id] ?? 0) - (popularityMap[a.id] ?? 0));
+      break;
+    case "newest":
+    default:
+      sorted.sort((a, b) => b.id - a.id);
+  }
+
+  return sorted;
+}

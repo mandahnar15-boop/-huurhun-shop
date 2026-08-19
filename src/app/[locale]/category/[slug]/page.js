@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
+import SortSelect from "@/components/SortSelect";
 import { categories } from "@/data/categories";
 import { getDictionary } from "@/dictionaries";
-import { getProducts } from "@/lib/products";
+import { getProducts, getReviewCounts, sortProducts } from "@/lib/products";
 import { createClient } from "@/lib/supabase/server";
 
 function getProductsForSlug(category, products) {
@@ -14,8 +15,9 @@ function getProductsForSlug(category, products) {
   return products.filter((p) => matchTypes.includes(p.type));
 }
 
-export default async function CategoryPage({ params }) {
+export default async function CategoryPage({ params, searchParams }) {
   const { locale, slug } = await params;
+  const { sort } = await searchParams;
   const dict = getDictionary(locale);
   const category = categories.find((c) => c.slug === slug);
 
@@ -26,6 +28,10 @@ export default async function CategoryPage({ params }) {
   const label = dict.nav[slug];
   const filteredProducts = getProductsForSlug(category, products);
 
+  const popularityMap =
+    sort === "popular" ? await getReviewCounts(supabase, filteredProducts.map((p) => p.id)) : {};
+  const sortedProducts = sortProducts(filteredProducts, sort ?? "newest", popularityMap);
+
   return (
     <main className="mx-auto w-full max-w-6xl px-6 py-10">
       <p className="mb-2 text-sm font-medium text-mute">
@@ -34,13 +40,17 @@ export default async function CategoryPage({ params }) {
         </Link>{" "}
         / {label}
       </p>
-      <h1 className="mb-8 text-[32px] font-medium text-ink">{label}</h1>
 
-      {filteredProducts.length === 0 ? (
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <h1 className="text-[32px] font-medium text-ink">{label}</h1>
+        {sortedProducts.length > 0 && <SortSelect dict={dict} />}
+      </div>
+
+      {sortedProducts.length === 0 ? (
         <p className="text-sm font-medium text-mute">{dict.emptyCategory}</p>
       ) : (
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredProducts.map((product) => (
+          {sortedProducts.map((product) => (
             <ProductCard key={product.id} product={product} locale={locale} dict={dict} />
           ))}
         </div>

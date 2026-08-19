@@ -64,6 +64,12 @@ const ko = {
   },
   breadcrumbHome: "홈",
   emptyCategory: "아직 등록된 상품이 없어요.",
+  sort: {
+    newest: "신상품순",
+    priceAsc: "가격 낮은순",
+    priceDesc: "가격 높은순",
+    popular: "인기순",
+  },
   product: {
     color: "컬러",
     size: "사이즈",
