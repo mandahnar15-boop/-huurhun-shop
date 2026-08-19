@@ -1,14 +1,34 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import { useWishlist } from "@/context/WishlistContext";
-import { products } from "@/data/products";
+import { getProductsByIds } from "@/lib/products";
+import { createClient } from "@/lib/supabase/client";
 
 // 위시리스트에 담긴 상품들을 상품 카드 그리드로 보여줌 (localStorage 상태를 쓰는 클라이언트 컴포넌트)
 export default function WishlistView({ dict, locale }) {
   const { ids } = useWishlist();
-  const wishlistedProducts = products.filter((p) => ids.includes(p.id));
+  const [wishlistedProducts, setWishlistedProducts] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const idsKey = ids.join(",");
+
+  useEffect(() => {
+    if (!idsKey) {
+      setWishlistedProducts([]);
+      setIsLoaded(true);
+      return;
+    }
+    setIsLoaded(false);
+    const supabase = createClient();
+    getProductsByIds(supabase, idsKey.split(",").map(Number)).then((fetched) => {
+      setWishlistedProducts(fetched);
+      setIsLoaded(true);
+    });
+  }, [idsKey]);
+
+  if (!isLoaded) return null;
 
   if (wishlistedProducts.length === 0) {
     return (

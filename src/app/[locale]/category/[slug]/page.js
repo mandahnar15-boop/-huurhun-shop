@@ -2,10 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import { categories } from "@/data/categories";
-import { products } from "@/data/products";
 import { getDictionary } from "@/dictionaries";
+import { getProducts } from "@/lib/products";
+import { createClient } from "@/lib/supabase/server";
 
-function getProductsForSlug(category) {
+function getProductsForSlug(category, products) {
   if (category.slug === "new") return products.filter((p) => p.badge === "NEW");
   if (category.slug === "sale") return products.filter((p) => Boolean(p.salePrice));
   // types가 있는 상위 카테고리는 그 안에 속한 하위 type들을 전부 모아서 보여줌
@@ -20,8 +21,10 @@ export default async function CategoryPage({ params }) {
 
   if (!category) notFound();
 
+  const supabase = await createClient();
+  const products = await getProducts(supabase);
   const label = dict.nav[slug];
-  const filteredProducts = getProductsForSlug(category);
+  const filteredProducts = getProductsForSlug(category, products);
 
   return (
     <main className="mx-auto w-full max-w-6xl px-6 py-10">

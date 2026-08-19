@@ -4,17 +4,20 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { categories } from "@/data/categories";
+import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { locales } from "@/dictionaries";
 
 const localeLabels = { ko: "한국어", en: "EN", mn: "MN" };
+const ADMIN_EMAIL = "mandahnar15@gmail.com";
 
 // 메인 네비게이션 — 로고, 카테고리 링크, 검색창, 위시리스트/장바구니 아이콘, 언어 전환
 // 좁은 화면에서는 카테고리가 햄버거 버튼 → 왼쪽에서 슬라이드되는 드로어로 들어감
 export default function PrimaryNav({ locale, dict }) {
   const pathname = usePathname();
   const router = useRouter();
+  const { user, isLoaded: isAuthLoaded, signOut } = useAuth();
   const { totalCount } = useCart();
   const { totalCount: wishlistCount } = useWishlist();
   const [query, setQuery] = useState("");
@@ -227,6 +230,44 @@ export default function PrimaryNav({ locale, dict }) {
             );
           })}
         </ul>
+
+        {isAuthLoaded && (
+          <div className="flex flex-col gap-1 border-t border-hairline pt-6 text-sm font-medium text-ink">
+            {user ? (
+              <>
+                {user.email === ADMIN_EMAIL && (
+                  <>
+                    <Link href={`/${locale}/admin`} onClick={() => setIsMenuOpen(false)} className="py-1.5">
+                      {dict.admin.ordersNav}
+                    </Link>
+                    <Link
+                      href={`/${locale}/admin/products`}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="py-1.5"
+                    >
+                      {dict.admin.productsNav}
+                    </Link>
+                  </>
+                )}
+                <Link href={`/${locale}/mypage`} onClick={() => setIsMenuOpen(false)} className="py-1.5">
+                  {dict.mypage.title}
+                </Link>
+                <button type="button" onClick={() => signOut()} className="py-1.5 text-left">
+                  {dict.auth.logout}
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href={`/${locale}/signup`} onClick={() => setIsMenuOpen(false)} className="py-1.5">
+                  {dict.auth.signup}
+                </Link>
+                <Link href={`/${locale}/login`} onClick={() => setIsMenuOpen(false)} className="py-1.5">
+                  {dict.auth.login}
+                </Link>
+              </>
+            )}
+          </div>
+        )}
 
         <div className="border-t border-hairline pt-6">
           <select

@@ -2,18 +2,38 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useCart } from "@/context/CartContext";
-import { products } from "@/data/products";
+import { getProductsByIds } from "@/lib/products";
+import { createClient } from "@/lib/supabase/client";
 import { formatPrice } from "@/lib/currency";
 import { localizeProduct } from "@/lib/localize";
 
 // 장바구니에 담긴 상품 목록 + 수량 조절 + 삭제 + 합계 (localStorage 상태를 쓰는 클라이언트 컴포넌트)
 export default function CartView({ dict, locale }) {
   const { items, updateQty, removeItem } = useCart();
+  const [productsById, setProductsById] = useState({});
+  const [isLoaded, setIsLoaded] = useState(false);
+  const idsKey = [...new Set(items.map((item) => item.id))].join(",");
+
+  useEffect(() => {
+    const ids = idsKey ? idsKey.split(",").map(Number) : [];
+    if (ids.length === 0) {
+      setProductsById({});
+      setIsLoaded(true);
+      return;
+    }
+    setIsLoaded(false);
+    const supabase = createClient();
+    getProductsByIds(supabase, ids).then((fetched) => {
+      setProductsById(Object.fromEntries(fetched.map((p) => [p.id, p])));
+      setIsLoaded(true);
+    });
+  }, [idsKey]);
 
   const lines = items
     .map((item) => {
-      const product = products.find((p) => p.id === item.id);
+      const product = productsById[item.id];
       if (!product) return null;
       const unitPrice = product.salePrice ?? product.price;
       return { ...item, product, unitPrice };
@@ -21,6 +41,8 @@ export default function CartView({ dict, locale }) {
     .filter(Boolean);
 
   const subtotal = lines.reduce((sum, line) => sum + line.unitPrice * line.qty, 0);
+
+  if (!isLoaded) return null;
 
   if (lines.length === 0) {
     return (
@@ -47,8 +69,8 @@ export default function CartView({ dict, locale }) {
           return (
             <div key={`${line.id}-${line.color}-${line.size}`} className="flex gap-4 border-b border-hairline pb-6">
               <div className="relative h-24 w-24 shrink-0 bg-soft-cloud">
-                {line.product.image ? (
-                  <Image src={line.product.image} alt={name} fill sizes="96px" className="object-cover" />
+                {line.product.images?.[0] ? (
+                  <Image src={line.product.images[0]} alt={name} fill sizes="96px" className="object-cover" />
                 ) : (
                   <div className="flex h-full items-center justify-center text-3xl">{line.product.emoji}</div>
                 )}

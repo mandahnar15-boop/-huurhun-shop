@@ -1,14 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { bankAccount } from "@/data/bankAccount";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
-import { products } from "@/data/products";
 import { createClient } from "@/lib/supabase/client";
 import { formatPrice } from "@/lib/currency";
 import { localizeProduct } from "@/lib/localize";
+import { getProductsByIds } from "@/lib/products";
 
 function makeOrderNumber() {
   const random = Math.floor(100000 + Math.random() * 900000);
@@ -26,10 +26,23 @@ export default function CheckoutForm({ dict, locale }) {
   const [isConfirming, setIsConfirming] = useState(false);
   const [error, setError] = useState("");
   const [shipping, setShipping] = useState({ name: "", phone: "", address: "", memo: "" });
+  const [productsById, setProductsById] = useState({});
+  const idsKey = [...new Set(items.map((item) => item.id))].join(",");
+
+  useEffect(() => {
+    if (!idsKey) {
+      setProductsById({});
+      return;
+    }
+    const supabase = createClient();
+    getProductsByIds(supabase, idsKey.split(",").map(Number)).then((fetched) => {
+      setProductsById(Object.fromEntries(fetched.map((p) => [p.id, p])));
+    });
+  }, [idsKey]);
 
   const lines = items
     .map((item) => {
-      const product = products.find((p) => p.id === item.id);
+      const product = productsById[item.id];
       if (!product) return null;
       const unitPrice = product.salePrice ?? product.price;
       return { ...item, product, unitPrice };

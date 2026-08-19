@@ -1,11 +1,14 @@
 import Hero from "@/components/Hero";
 import ProductCard from "@/components/ProductCard";
 import { getDictionary } from "@/dictionaries";
-import { products } from "@/data/products";
+import { getProducts } from "@/lib/products";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function Home({ params }) {
   const { locale } = await params;
   const dict = getDictionary(locale);
+  const supabase = await createClient();
+  const products = await getProducts(supabase);
 
   return (
     <>

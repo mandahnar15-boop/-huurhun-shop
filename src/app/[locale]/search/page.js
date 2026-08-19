@@ -1,13 +1,16 @@
 import ProductCard from "@/components/ProductCard";
-import { products } from "@/data/products";
 import { getDictionary } from "@/dictionaries";
 import { localizeProduct } from "@/lib/localize";
+import { getProducts } from "@/lib/products";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function SearchPage({ params, searchParams }) {
   const { locale } = await params;
   const { q } = await searchParams;
   const dict = getDictionary(locale);
   const query = (q ?? "").trim().toLowerCase();
+  const supabase = await createClient();
+  const products = query ? await getProducts(supabase) : [];
 
   const results = query
     ? products.filter((product) => {

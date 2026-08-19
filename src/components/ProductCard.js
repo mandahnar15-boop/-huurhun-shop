@@ -9,7 +9,8 @@ import { localizeProduct } from "@/lib/localize";
 // 상품 하나를 카드 형태로 보여주는 컴포넌트 (Nike 스타일: 각 없음, 그림자 없음)
 // 클릭하면 상품 상세 페이지(/[locale]/product/[id])로 이동
 export default function ProductCard({ product, locale, dict }) {
-  const { id, price, salePrice, badge, image, emoji, swatches } = product;
+  const { id, price, salePrice, badge, images, emoji, swatches } = product;
+  const image = images?.[0];
   const { displayName, displayCategory } = localizeProduct(product, locale);
   const { isWishlisted, toggleItem } = useWishlist();
   const wishlisted = isWishlisted(id);

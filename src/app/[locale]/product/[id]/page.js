@@ -1,21 +1,23 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ProductActions from "@/components/ProductActions";
+import ProductGallery from "@/components/ProductGallery";
 import ReviewSection from "@/components/ReviewSection";
-import { products } from "@/data/products";
 import { getDictionary } from "@/dictionaries";
 import { formatPrice } from "@/lib/currency";
 import { localizeProduct } from "@/lib/localize";
+import { getProductById } from "@/lib/products";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function ProductPage({ params }) {
   const { locale, id } = await params;
   const dict = getDictionary(locale);
-  const product = products.find((p) => p.id === Number(id));
+  const supabase = await createClient();
+  const product = await getProductById(supabase, Number(id));
 
   if (!product) notFound();
 
-  const { price, salePrice, image, emoji, type } = product;
+  const { price, salePrice, images, emoji, type } = product;
   const { displayName, displayCategory } = localizeProduct(product, locale);
   const isSale = Boolean(salePrice);
   const percentOff = isSale ? Math.round((1 - salePrice / price) * 100) : 0;
@@ -34,21 +36,7 @@ export default async function ProductPage({ params }) {
       </p>
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
-        {/* 상품 이미지 자리 — image가 있으면 실제 사진, 없으면 이모지로 대체 */}
-        <div className="relative flex aspect-square items-center justify-center bg-soft-cloud text-[120px]">
-          {image ? (
-            <Image
-              src={image}
-              alt={displayName}
-              fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
-              priority
-            />
-          ) : (
-            emoji
-          )}
-        </div>
+        <ProductGallery images={images} alt={displayName} emoji={emoji} />
 
         {/* 상품 정보 */}
         <div className="flex flex-col gap-6">

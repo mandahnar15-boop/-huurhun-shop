@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ko from "@/dictionaries/ko";
+import { getDictionary } from "@/dictionaries";
 import { createClient } from "@/lib/supabase/server";
 import { formatPrice } from "@/lib/currency";
 import { updateOrderStatus } from "./actions";
@@ -14,9 +14,9 @@ const STATUS_COLOR = {
 };
 
 // 관리자 전용 주문 목록 페이지 — mandahnar15@gmail.com 계정으로 로그인해야 보임
-// (다국어 대상 아님 — 사장님만 쓰는 내부 페이지라 한국어로 고정)
 export default async function AdminPage({ params }) {
   const { locale } = await params;
+  const dict = getDictionary(locale);
   const supabase = await createClient();
 
   const {
@@ -26,12 +26,12 @@ export default async function AdminPage({ params }) {
   if (!user || user.email !== ADMIN_EMAIL) {
     return (
       <main className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center px-6 py-16 text-center">
-        <p className="mb-6 text-base font-medium text-ink">관리자만 볼 수 있는 페이지예요.</p>
+        <p className="mb-6 text-base font-medium text-ink">{dict.admin.adminOnly}</p>
         <Link
           href={`/${locale}/login`}
           className="inline-flex h-12 items-center rounded-[30px] bg-ink px-8 text-sm font-medium text-white"
         >
-          로그인
+          {dict.admin.login}
         </Link>
       </main>
     );
@@ -44,10 +44,15 @@ export default async function AdminPage({ params }) {
 
   return (
     <main className="mx-auto w-full max-w-6xl px-6 py-10">
-      <h1 className="mb-8 text-[32px] font-medium text-ink">주문 관리</h1>
+      <div className="mb-8 flex items-center gap-6">
+        <h1 className="text-[32px] font-medium text-ink">{dict.admin.ordersNav}</h1>
+        <Link href={`/${locale}/admin/products`} className="text-sm font-medium text-mute hover:text-ink">
+          {dict.admin.productsNav}
+        </Link>
+      </div>
 
       {!orders || orders.length === 0 ? (
-        <p className="text-sm font-medium text-mute">아직 주문이 없어요.</p>
+        <p className="text-sm font-medium text-mute">{dict.admin.noOrders}</p>
       ) : (
         <div className="flex flex-col gap-4">
           {orders.map((order) => (
@@ -56,7 +61,7 @@ export default async function AdminPage({ params }) {
                 <div className="flex items-center gap-3">
                   <span className="text-base font-medium text-ink">{order.order_number}</span>
                   <span className={`text-sm font-medium ${STATUS_COLOR[order.status]}`}>
-                    {ko.orderStatus[order.status] ?? order.status}
+                    {dict.orderStatus[order.status] ?? order.status}
                   </span>
                 </div>
                 <span className="text-xs font-medium text-mute">
@@ -66,20 +71,20 @@ export default async function AdminPage({ params }) {
 
               <div className="grid grid-cols-1 gap-2 text-sm font-medium sm:grid-cols-2">
                 <p className="text-ink">
-                  <span className="text-mute">이름 </span>
+                  <span className="text-mute">{dict.admin.name} </span>
                   {order.customer_name}
                 </p>
                 <p className="text-ink">
-                  <span className="text-mute">연락처 </span>
+                  <span className="text-mute">{dict.admin.phone} </span>
                   {order.phone}
                 </p>
                 <p className="text-ink sm:col-span-2">
-                  <span className="text-mute">주소 </span>
+                  <span className="text-mute">{dict.admin.address} </span>
                   {order.address}
                 </p>
                 {order.memo && (
                   <p className="text-ink sm:col-span-2">
-                    <span className="text-mute">메모 </span>
+                    <span className="text-mute">{dict.admin.memo} </span>
                     {order.memo}
                   </p>
                 )}
@@ -92,7 +97,7 @@ export default async function AdminPage({ params }) {
                   </p>
                 ))}
                 <p className="mt-1 font-medium text-ink">
-                  합계 {formatPrice(order.subtotal, order.locale)}
+                  {dict.admin.total} {formatPrice(order.subtotal, order.locale)}
                 </p>
               </div>
 
@@ -103,7 +108,7 @@ export default async function AdminPage({ params }) {
                       type="submit"
                       className="h-9 rounded-[30px] bg-ink px-4 text-xs font-medium text-white"
                     >
-                      입금 확인 처리
+                      {dict.admin.confirmPayment}
                     </button>
                   </form>
                 )}
@@ -113,7 +118,7 @@ export default async function AdminPage({ params }) {
                       type="submit"
                       className="h-9 rounded-[30px] bg-ink px-4 text-xs font-medium text-white"
                     >
-                      배송 시작 처리
+                      {dict.admin.startShipping}
                     </button>
                   </form>
                 )}
@@ -123,7 +128,7 @@ export default async function AdminPage({ params }) {
                       type="submit"
                       className="h-9 rounded-[30px] border border-hairline px-4 text-xs font-medium text-ink"
                     >
-                      주문 취소
+                      {dict.admin.cancelOrder}
                     </button>
                   </form>
                 )}

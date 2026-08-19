@@ -22,9 +22,14 @@ export default function UtilityBar({ dict, locale }) {
           {user ? (
             <>
               {user.email === ADMIN_EMAIL && (
-                <Link href={`/${locale}/admin`} className="hover:underline">
-                  주문 관리
-                </Link>
+                <>
+                  <Link href={`/${locale}/admin`} className="hover:underline">
+                    {dict.admin.ordersNav}
+                  </Link>
+                  <Link href={`/${locale}/admin/products`} className="hover:underline">
+                    {dict.admin.productsNav}
+                  </Link>
+                </>
               )}
               <Link href={`/${locale}/mypage`} className="hover:underline">
                 {dict.mypage.title}
