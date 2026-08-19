@@ -70,6 +70,11 @@ export default function ProductFormFields({ product, dict }) {
         <input type="text" name="badge" defaultValue={product?.badge ?? ""} className={fieldClass} />
       </label>
 
+      <label className="flex items-center gap-2">
+        <input type="checkbox" name="soldOut" defaultChecked={product?.isSoldOut ?? false} />
+        <span className="text-sm font-medium text-ink">{form.soldOut}</span>
+      </label>
+
       <label className="flex flex-col gap-2">
         <span className="text-sm font-medium text-ink">{form.swatches}</span>
         <input

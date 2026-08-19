@@ -72,6 +72,7 @@ const en = {
     added: "Added to Bag",
     buyNow: "Buy Now",
     percentOffSuffix: "% off",
+    soldOut: "Sold Out",
   },
   orderStatus: {
     pending: "Awaiting payment",
@@ -175,6 +176,7 @@ const en = {
       price: "Price (KRW)",
       salePrice: "Sale Price (optional)",
       badge: "Badge (optional, e.g. NEW, SALE)",
+      soldOut: "Mark as sold out",
       swatches: "Color Swatches (comma-separated, e.g. #111111, #f5f5f5)",
       sizes: "Sizes (comma-separated, e.g. S, M, L or Free)",
       emoji: "Emoji (fallback when no photo, optional)",

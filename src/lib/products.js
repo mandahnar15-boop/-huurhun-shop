@@ -14,6 +14,7 @@ function mapProductRow(row) {
     badge: row.badge,
     images: row.images ?? [],
     emoji: row.emoji,
+    isSoldOut: row.is_sold_out ?? false,
     swatches: row.swatches ?? [],
     sizes: row.sizes ?? [],
   };

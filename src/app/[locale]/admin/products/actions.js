@@ -59,6 +59,7 @@ function buildFields(formData, type) {
     price: Number(formData.get("price")),
     sale_price: salePriceRaw ? Number(salePriceRaw) : null,
     badge: formData.get("badge") || null,
+    is_sold_out: formData.get("soldOut") === "on",
     emoji: formData.get("emoji") || null,
     swatches: parseListField(formData.get("swatches")),
     sizes: parseListField(formData.get("sizes")),

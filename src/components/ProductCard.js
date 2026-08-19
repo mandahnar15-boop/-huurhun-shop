@@ -9,7 +9,7 @@ import { localizeProduct } from "@/lib/localize";
 // 상품 하나를 카드 형태로 보여주는 컴포넌트 (Nike 스타일: 각 없음, 그림자 없음)
 // 클릭하면 상품 상세 페이지(/[locale]/product/[id])로 이동
 export default function ProductCard({ product, locale, dict }) {
-  const { id, price, salePrice, badge, images, emoji, swatches } = product;
+  const { id, price, salePrice, badge, images, emoji, swatches, isSoldOut } = product;
   const image = images?.[0];
   const { displayName, displayCategory } = localizeProduct(product, locale);
   const { isWishlisted, toggleItem } = useWishlist();
@@ -27,10 +27,16 @@ export default function ProductCard({ product, locale, dict }) {
     <Link href={`/${locale}/product/${id}`} className="flex flex-col bg-canvas text-ink">
       {/* 상품 이미지 자리 — image가 있으면 실제 사진, 없으면 이모지로 대체 */}
       <div className="relative flex aspect-square items-center justify-center bg-soft-cloud text-6xl">
-        {badge && (
-          <span className="absolute left-0 top-0 z-10 rounded-[30px] border border-hairline bg-canvas px-3 py-1 text-xs font-medium text-ink">
-            {badge}
+        {isSoldOut ? (
+          <span className="absolute left-0 top-0 z-10 rounded-[30px] bg-ink px-3 py-1 text-xs font-medium text-white">
+            {dict.product.soldOut}
           </span>
+        ) : (
+          badge && (
+            <span className="absolute left-0 top-0 z-10 rounded-[30px] border border-hairline bg-canvas px-3 py-1 text-xs font-medium text-ink">
+              {badge}
+            </span>
+          )
         )}
 
         <button
@@ -57,10 +63,10 @@ export default function ProductCard({ product, locale, dict }) {
             alt={displayName}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover"
+            className={`object-cover ${isSoldOut ? "opacity-40 grayscale" : ""}`}
           />
         ) : (
-          emoji
+          <span className={isSoldOut ? "opacity-40 grayscale" : ""}>{emoji}</span>
         )}
       </div>
 

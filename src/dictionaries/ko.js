@@ -72,6 +72,7 @@ const ko = {
     added: "장바구니에 담았어요",
     buyNow: "바로 구매",
     percentOffSuffix: "% 할인",
+    soldOut: "품절",
   },
   orderStatus: {
     pending: "입금 확인 대기",
@@ -175,6 +176,7 @@ const ko = {
       price: "가격 (원)",
       salePrice: "할인가 (선택)",
       badge: "배지 (선택, 예: NEW, SALE)",
+      soldOut: "품절 처리",
       swatches: "컬러 스와치 (쉼표로 구분, 예: #111111, #f5f5f5)",
       sizes: "사이즈 (쉼표로 구분, 예: S, M, L 또는 Free)",
       emoji: "이모지 (사진 없을 때 대신 보여줄 이모지, 선택)",

@@ -48,7 +48,14 @@ export default async function AdminProductsPage({ params }) {
                 </div>
 
                 <div className="flex flex-1 flex-col">
-                  <p className="text-sm font-medium text-ink">{displayName}</p>
+                  <p className="text-sm font-medium text-ink">
+                    {displayName}
+                    {product.isSoldOut && (
+                      <span className="ml-2 rounded-[30px] bg-ink px-2 py-0.5 text-[10px] font-medium text-white">
+                        {dict.product.soldOut}
+                      </span>
+                    )}
+                  </p>
                   <p className="text-xs font-medium text-mute">
                     {displayCategory} · {formatPrice(product.salePrice ?? product.price, locale)}
                   </p>

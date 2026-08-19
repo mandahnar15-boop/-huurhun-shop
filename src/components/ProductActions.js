@@ -98,9 +98,10 @@ export default function ProductActions({ product, dict, locale }) {
         <button
           type="button"
           onClick={handleAdd}
-          className="h-12 flex-1 rounded-[30px] border border-ink text-sm font-medium text-ink"
+          disabled={product.isSoldOut}
+          className="h-12 flex-1 rounded-[30px] border border-ink text-sm font-medium text-ink disabled:cursor-not-allowed disabled:border-hairline disabled:text-mute"
         >
-          {added ? dict.product.added : dict.product.addToCart}
+          {product.isSoldOut ? dict.product.soldOut : added ? dict.product.added : dict.product.addToCart}
         </button>
 
         <button
@@ -125,9 +126,10 @@ export default function ProductActions({ product, dict, locale }) {
       <button
         type="button"
         onClick={handleBuyNow}
-        className="h-12 w-full rounded-[30px] bg-ink text-sm font-medium text-white"
+        disabled={product.isSoldOut}
+        className="h-12 w-full rounded-[30px] bg-ink text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-mute"
       >
-        {dict.product.buyNow}
+        {product.isSoldOut ? dict.product.soldOut : dict.product.buyNow}
       </button>
     </>
   );

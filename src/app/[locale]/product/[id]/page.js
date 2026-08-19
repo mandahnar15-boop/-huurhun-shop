@@ -55,6 +55,12 @@ export default async function ProductPage({ params }) {
                 {formatPrice(price, locale)}
               </p>
             )}
+
+            {product.isSoldOut && (
+              <span className="inline-flex w-fit rounded-[30px] bg-ink px-3 py-1 text-xs font-medium text-white">
+                {dict.product.soldOut}
+              </span>
+            )}
           </div>
 
           <ProductActions product={product} dict={dict} locale={locale} />
