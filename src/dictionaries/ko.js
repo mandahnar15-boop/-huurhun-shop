@@ -180,6 +180,8 @@ const ko = {
       },
     ],
     copyright: "© 2026 HUURHUN SHOP. All rights reserved.",
+    terms: "이용약관",
+    privacy: "개인정보처리방침",
   },
   pages: {
     sizeGuide: {

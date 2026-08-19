@@ -180,6 +180,8 @@ const mn = {
       },
     ],
     copyright: "© 2026 HUURHUN SHOP. Бүх эрх хуулиар хамгаалагдсан.",
+    terms: "Үйлчилгээний нөхцөл",
+    privacy: "Нууцлалын бодлого",
   },
   pages: {
     sizeGuide: {

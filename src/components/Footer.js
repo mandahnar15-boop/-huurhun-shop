@@ -30,8 +30,16 @@ export default function Footer({ dict, locale }) {
         ))}
       </div>
 
-      <div className="mx-auto max-w-6xl border-t border-hairline py-4">
+      <div className="mx-auto flex max-w-6xl flex-col items-start gap-3 border-t border-hairline py-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-[9px] font-medium text-mute">{dict.footer.copyright}</p>
+        <div className="flex gap-4">
+          <Link href={`/${locale}/terms`} className="text-[10px] font-medium text-mute hover:text-ink">
+            {dict.footer.terms}
+          </Link>
+          <Link href={`/${locale}/privacy`} className="text-[10px] font-medium text-mute hover:text-ink">
+            {dict.footer.privacy}
+          </Link>
+        </div>
       </div>
     </footer>
   );
