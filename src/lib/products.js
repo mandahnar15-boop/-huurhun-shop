@@ -47,6 +47,24 @@ export async function getReviewCounts(supabase, productIds) {
   return counts;
 }
 
+// 상/하의를 서로 짝지어 "함께 구매하면 좋은 상품"을 추천 — 실제 판매 데이터가 없어서 카테고리 궁합으로 대신함
+const TOP_TYPES = ["tops", "top", "tshirts", "longsleeve", "shirts", "knitwears", "hoodies", "jackets", "outerwear"];
+const BOTTOM_TYPES = ["bottom", "pantsdenim", "shorts", "dressskirts"];
+const ACCESSORY_TYPES = ["accessories", "bags", "hatscaps", "underwear"];
+
+export function getRelatedProducts(allProducts, product, limit = 4) {
+  const others = allProducts.filter((p) => p.id !== product.id && !p.isSoldOut);
+
+  let pairedTypes = [];
+  if (TOP_TYPES.includes(product.type)) pairedTypes = [...BOTTOM_TYPES, ...ACCESSORY_TYPES];
+  else if (BOTTOM_TYPES.includes(product.type)) pairedTypes = [...TOP_TYPES, ...ACCESSORY_TYPES];
+
+  const paired = others.filter((p) => pairedTypes.includes(p.type));
+  const rest = others.filter((p) => !pairedTypes.includes(p.type));
+
+  return [...paired, ...rest].slice(0, limit);
+}
+
 export function sortProducts(products, sort, popularityMap = {}) {
   const sorted = [...products];
 

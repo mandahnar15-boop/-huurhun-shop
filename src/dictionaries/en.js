@@ -82,6 +82,8 @@ const en = {
     restockEmailPlaceholder: "Enter your email",
     restockNotify: "Notify Me",
     restockRequested: "You're on the list! We'll reach out when it's back.",
+    relatedProducts: "Goes Well With",
+    recentlyViewed: "Recently Viewed",
   },
   orderStatus: {
     pending: "Awaiting payment",

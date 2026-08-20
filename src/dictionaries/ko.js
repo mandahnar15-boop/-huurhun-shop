@@ -82,6 +82,8 @@ const ko = {
     restockEmailPlaceholder: "이메일 입력",
     restockNotify: "재입고 알림 신청",
     restockRequested: "신청 완료! 재입고되면 연락드릴게요.",
+    relatedProducts: "함께 구매하면 좋은 상품",
+    recentlyViewed: "최근 본 상품",
   },
   orderStatus: {
     pending: "입금 확인 대기",

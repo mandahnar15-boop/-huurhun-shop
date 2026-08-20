@@ -82,6 +82,8 @@ const mn = {
     restockEmailPlaceholder: "И-мэйл хаягаа оруулна уу",
     restockNotify: "Мэдэгдэл авах",
     restockRequested: "Бүртгэгдлээ! Дахин ирэхэд тантай холбогдоно.",
+    relatedProducts: "Хамт авбал тохирно",
+    recentlyViewed: "Саяхан үзсэн",
   },
   orderStatus: {
     pending: "Төлбөр хүлээгдэж байна",

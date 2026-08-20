@@ -2,11 +2,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ProductActions from "@/components/ProductActions";
 import ProductGallery from "@/components/ProductGallery";
+import ProductStrip from "@/components/ProductStrip";
+import RecentlyViewedSection from "@/components/RecentlyViewedSection";
+import RecordProductView from "@/components/RecordProductView";
 import ReviewSection from "@/components/ReviewSection";
 import { getDictionary } from "@/dictionaries";
 import { formatPrice } from "@/lib/currency";
 import { localizeProduct } from "@/lib/localize";
-import { getProductById } from "@/lib/products";
+import { getProductById, getProducts, getRelatedProducts } from "@/lib/products";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function ProductPage({ params }) {
@@ -17,13 +20,18 @@ export default async function ProductPage({ params }) {
 
   if (!product) notFound();
 
+  const allProducts = await getProducts(supabase);
+  const relatedProducts = getRelatedProducts(allProducts, product);
+
   const { price, salePrice, images, emoji, type } = product;
   const { displayName, displayCategory } = localizeProduct(product, locale);
   const isSale = Boolean(salePrice);
   const percentOff = isSale ? Math.round((1 - salePrice / price) * 100) : 0;
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 py-10">
+    <>
+      <RecordProductView productId={product.id} />
+      <main className="mx-auto w-full max-w-6xl px-6 py-10">
       <p className="mb-6 text-sm font-medium text-mute">
         <Link href={`/${locale}`} className="hover:text-ink">
           {dict.breadcrumbHome}
@@ -80,6 +88,10 @@ export default async function ProductPage({ params }) {
           <ReviewSection productId={product.id} dict={dict} />
         </div>
       </div>
-    </main>
+      </main>
+
+      <ProductStrip title={dict.product.relatedProducts} products={relatedProducts} locale={locale} dict={dict} />
+      <RecentlyViewedSection excludeId={product.id} dict={dict} locale={locale} />
+    </>
   );
 }

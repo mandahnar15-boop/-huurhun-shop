@@ -6,6 +6,7 @@ import ScrollToTopButton from "@/components/ScrollToTopButton";
 import UtilityBar from "@/components/UtilityBar";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
+import { RecentlyViewedProvider } from "@/context/RecentlyViewedContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { getDictionary, locales } from "@/dictionaries";
 import "../globals.css";
@@ -46,11 +47,13 @@ export default async function LocaleLayout({ children, params }) {
         <AuthProvider>
           <WishlistProvider>
             <CartProvider>
-              <UtilityBar dict={dict} locale={locale} />
-              <PrimaryNav locale={locale} dict={dict} />
-              <div className="flex flex-1 flex-col">{children}</div>
-              <Footer dict={dict} locale={locale} />
-              <ScrollToTopButton />
+              <RecentlyViewedProvider>
+                <UtilityBar dict={dict} locale={locale} />
+                <PrimaryNav locale={locale} dict={dict} />
+                <div className="flex flex-1 flex-col">{children}</div>
+                <Footer dict={dict} locale={locale} />
+                <ScrollToTopButton />
+              </RecentlyViewedProvider>
             </CartProvider>
           </WishlistProvider>
         </AuthProvider>
