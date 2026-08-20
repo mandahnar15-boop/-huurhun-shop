@@ -19,3 +19,17 @@ export async function updateOrderStatus(orderId, status, locale) {
   await supabase.from("orders").update({ status }).eq("id", orderId);
   revalidatePath(`/${locale}/admin`);
 }
+
+export async function deleteOrder(orderId, locale) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user || user.email !== ADMIN_EMAIL) {
+    throw new Error("Unauthorized");
+  }
+
+  await supabase.from("orders").delete().eq("id", orderId);
+  revalidatePath(`/${locale}/admin`);
+}

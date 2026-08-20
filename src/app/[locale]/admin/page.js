@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getDictionary } from "@/dictionaries";
 import { createClient } from "@/lib/supabase/server";
 import { formatPrice } from "@/lib/currency";
-import { updateOrderStatus } from "./actions";
+import { deleteOrder, updateOrderStatus } from "./actions";
 
 const ADMIN_EMAIL = "mandahnar15@gmail.com";
 const PENDING_ALERT_HOURS = 3;
@@ -157,6 +157,14 @@ export default async function AdminPage({ params }) {
                     </button>
                   </form>
                 )}
+                <form action={deleteOrder.bind(null, order.id, locale)}>
+                  <button
+                    type="submit"
+                    className="h-9 rounded-[30px] border border-hairline px-4 text-xs font-medium text-sale"
+                  >
+                    {dict.admin.delete}
+                  </button>
+                </form>
               </div>
             </div>
             );
