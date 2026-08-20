@@ -92,6 +92,17 @@ export default function CheckoutForm({ dict, locale }) {
       return;
     }
 
+    // 알림 실패로 주문 완료가 막히면 안 되니 결과를 기다리지 않고 그냥 보내둠
+    fetch("/api/notify-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderNumber,
+        amountText: formatPrice(subtotal, locale),
+        customerName: shipping.name,
+      }),
+    }).catch(() => {});
+
     clearCart();
 
     const query = new URLSearchParams({

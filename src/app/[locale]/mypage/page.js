@@ -50,6 +50,10 @@ export default async function MyPage({ params }) {
                 </span>
               </div>
 
+              {order.status === "pending" && (
+                <p className="text-xs font-medium text-mute">{dict.mypage.pendingNote}</p>
+              )}
+
               <div className="flex flex-col gap-1 border-t border-hairline pt-3 text-sm">
                 {order.items.map((item, i) => (
                   <p key={i} className="text-ink">

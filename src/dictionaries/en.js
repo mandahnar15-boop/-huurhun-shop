@@ -98,6 +98,7 @@ const en = {
     orderNumber: "Order Number",
     total: "Total",
     changeAddressNote: "Need to change your shipping address? Contact us via WhatsApp or Telegram with your order number ({orderNumber}).",
+    pendingNote: "We're confirming your payment now. The status will update as soon as it's checked — thanks for your patience.",
   },
   review: {
     title: "Reviews",
@@ -181,6 +182,7 @@ const en = {
     register: "Add",
     restockRequestsTitle: "Restock Notify Requests",
     noRestockRequests: "No requests yet.",
+    pendingAlert: "Unconfirmed for {hours}h ⚠️",
     form: {
       category: "Category",
       selectCategory: "Select",

@@ -98,6 +98,7 @@ const ko = {
     orderNumber: "주문번호",
     total: "결제금액",
     changeAddressNote: "배송지를 변경하고 싶으신가요? 주문번호({orderNumber})와 함께 WhatsApp 또는 Telegram으로 문의해주세요.",
+    pendingNote: "계좌 확인 중이에요. 확인되는 대로 상태가 바로 바뀌니 조금만 기다려주세요.",
   },
   review: {
     title: "리뷰",
@@ -181,6 +182,7 @@ const ko = {
     register: "등록하기",
     restockRequestsTitle: "재입고 알림 신청자",
     noRestockRequests: "신청자가 없어요.",
+    pendingAlert: "{hours}시간째 미확인 ⚠️",
     form: {
       category: "카테고리",
       selectCategory: "선택하세요",

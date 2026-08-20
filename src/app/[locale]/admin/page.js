@@ -5,6 +5,7 @@ import { formatPrice } from "@/lib/currency";
 import { updateOrderStatus } from "./actions";
 
 const ADMIN_EMAIL = "mandahnar15@gmail.com";
+const PENDING_ALERT_HOURS = 3;
 
 const STATUS_COLOR = {
   pending: "text-sale",
@@ -12,6 +13,10 @@ const STATUS_COLOR = {
   shipped: "text-ink",
   cancelled: "text-mute",
 };
+
+function getPendingHours(createdAt) {
+  return (Date.now() - new Date(createdAt).getTime()) / (1000 * 60 * 60);
+}
 
 // 관리자 전용 주문 목록 페이지 — mandahnar15@gmail.com 계정으로 로그인해야 보임
 export default async function AdminPage({ params }) {
@@ -37,10 +42,18 @@ export default async function AdminPage({ params }) {
     );
   }
 
-  const { data: orders } = await supabase
+  const { data: fetchedOrders } = await supabase
     .from("orders")
     .select("*")
     .order("created_at", { ascending: false });
+
+  // 오래 대기 중인 미확인 주문을 사장님이 놓치지 않도록 맨 위로 올림
+  const orders = [...(fetchedOrders ?? [])].sort((a, b) => {
+    const aDelayed = a.status === "pending" && getPendingHours(a.created_at) >= PENDING_ALERT_HOURS;
+    const bDelayed = b.status === "pending" && getPendingHours(b.created_at) >= PENDING_ALERT_HOURS;
+    if (aDelayed === bDelayed) return 0;
+    return aDelayed ? -1 : 1;
+  });
 
   return (
     <main className="mx-auto w-full max-w-6xl px-6 py-10">
@@ -55,14 +68,26 @@ export default async function AdminPage({ params }) {
         <p className="text-sm font-medium text-mute">{dict.admin.noOrders}</p>
       ) : (
         <div className="flex flex-col gap-4">
-          {orders.map((order) => (
-            <div key={order.id} className="flex flex-col gap-4 border border-hairline p-5">
+          {orders.map((order) => {
+            const pendingHours = order.status === "pending" ? getPendingHours(order.created_at) : 0;
+            const isDelayed = pendingHours >= PENDING_ALERT_HOURS;
+
+            return (
+            <div
+              key={order.id}
+              className={`flex flex-col gap-4 border p-5 ${isDelayed ? "border-sale" : "border-hairline"}`}
+            >
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-3">
                   <span className="text-base font-medium text-ink">{order.order_number}</span>
                   <span className={`text-sm font-medium ${STATUS_COLOR[order.status]}`}>
                     {dict.orderStatus[order.status] ?? order.status}
                   </span>
+                  {isDelayed && (
+                    <span className="rounded-[30px] bg-sale px-3 py-1 text-xs font-medium text-white">
+                      {dict.admin.pendingAlert.replace("{hours}", Math.floor(pendingHours))}
+                    </span>
+                  )}
                 </div>
                 <span className="text-xs font-medium text-mute">
                   {new Date(order.created_at).toLocaleString("ko-KR")}
@@ -134,7 +159,8 @@ export default async function AdminPage({ params }) {
                 )}
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </main>

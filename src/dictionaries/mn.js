@@ -98,6 +98,7 @@ const mn = {
     orderNumber: "Захиалгын дугаар",
     total: "Нийт дүн",
     changeAddressNote: "Хүргэлтийн хаягаа өөрчлөх үү? Захиалгын дугаараа ({orderNumber}) дурдаад WhatsApp эсвэл Telegram-аар холбогдоно уу.",
+    pendingNote: "Таны төлбөрийг шалгаж байна. Баталгаажмагц төлөв шууд шинэчлэгдэнэ — түр хүлээнэ үү.",
   },
   review: {
     title: "Сэтгэгдэл",
@@ -181,6 +182,7 @@ const mn = {
     register: "Бүртгэх",
     restockRequestsTitle: "Мэдэгдэл хүссэн жагсаалт",
     noRestockRequests: "Одоогоор хүсэлт алга байна.",
+    pendingAlert: "{hours} цагаас хойш баталгаажаагүй ⚠️",
     form: {
       category: "Ангилал",
       selectCategory: "Сонгоно уу",
