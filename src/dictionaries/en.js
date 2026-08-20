@@ -79,6 +79,9 @@ const en = {
     buyNow: "Buy Now",
     percentOffSuffix: "% off",
     soldOut: "Sold Out",
+    restockEmailPlaceholder: "Enter your email",
+    restockNotify: "Notify Me",
+    restockRequested: "You're on the list! We'll reach out when it's back.",
   },
   orderStatus: {
     pending: "Awaiting payment",
@@ -92,6 +95,7 @@ const en = {
     empty: "You have no orders yet.",
     orderNumber: "Order Number",
     total: "Total",
+    changeAddressNote: "Need to change your shipping address? Contact us via WhatsApp or Telegram with your order number ({orderNumber}).",
   },
   review: {
     title: "Reviews",
@@ -173,6 +177,8 @@ const en = {
     delete: "Delete",
     save: "Save",
     register: "Add",
+    restockRequestsTitle: "Restock Notify Requests",
+    noRestockRequests: "No requests yet.",
     form: {
       category: "Category",
       selectCategory: "Select",

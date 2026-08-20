@@ -105,3 +105,11 @@ export async function deleteProduct(id, locale) {
   await supabase.from("products").delete().eq("id", id);
   revalidatePath(`/${locale}/admin/products`);
 }
+
+export async function deleteRestockRequest(id, productId, locale) {
+  const supabase = await createClient();
+  await requireAdmin(supabase);
+
+  await supabase.from("restock_requests").delete().eq("id", id);
+  revalidatePath(`/${locale}/admin/products/${productId}`);
+}

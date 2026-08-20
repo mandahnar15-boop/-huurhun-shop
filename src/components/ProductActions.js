@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
+import RestockNotifyForm from "@/components/RestockNotifyForm";
 
 // 컬러 선택 + 수량 조절 + 장바구니 담기/바로 구매 버튼 (클릭 상태가 필요해서 클라이언트 컴포넌트)
 export default function ProductActions({ product, dict, locale }) {
@@ -95,14 +96,17 @@ export default function ProductActions({ product, dict, locale }) {
       </div>
 
       <div className="flex gap-2">
-        <button
-          type="button"
-          onClick={handleAdd}
-          disabled={product.isSoldOut}
-          className="h-12 flex-1 rounded-[30px] border border-ink text-sm font-medium text-ink disabled:cursor-not-allowed disabled:border-hairline disabled:text-mute"
-        >
-          {product.isSoldOut ? dict.product.soldOut : added ? dict.product.added : dict.product.addToCart}
-        </button>
+        {product.isSoldOut ? (
+          <RestockNotifyForm productId={product.id} dict={dict} />
+        ) : (
+          <button
+            type="button"
+            onClick={handleAdd}
+            className="h-12 flex-1 rounded-[30px] border border-ink text-sm font-medium text-ink"
+          >
+            {added ? dict.product.added : dict.product.addToCart}
+          </button>
+        )}
 
         <button
           type="button"
@@ -123,14 +127,15 @@ export default function ProductActions({ product, dict, locale }) {
         </button>
       </div>
 
-      <button
-        type="button"
-        onClick={handleBuyNow}
-        disabled={product.isSoldOut}
-        className="h-12 w-full rounded-[30px] bg-ink text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-mute"
-      >
-        {product.isSoldOut ? dict.product.soldOut : dict.product.buyNow}
-      </button>
+      {!product.isSoldOut && (
+        <button
+          type="button"
+          onClick={handleBuyNow}
+          className="h-12 w-full rounded-[30px] bg-ink text-sm font-medium text-white"
+        >
+          {dict.product.buyNow}
+        </button>
+      )}
     </>
   );
 }

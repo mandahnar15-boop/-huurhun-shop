@@ -79,6 +79,9 @@ const ko = {
     buyNow: "바로 구매",
     percentOffSuffix: "% 할인",
     soldOut: "품절",
+    restockEmailPlaceholder: "이메일 입력",
+    restockNotify: "재입고 알림 신청",
+    restockRequested: "신청 완료! 재입고되면 연락드릴게요.",
   },
   orderStatus: {
     pending: "입금 확인 대기",
@@ -92,6 +95,7 @@ const ko = {
     empty: "아직 주문 내역이 없어요.",
     orderNumber: "주문번호",
     total: "결제금액",
+    changeAddressNote: "배송지를 변경하고 싶으신가요? 주문번호({orderNumber})와 함께 WhatsApp 또는 Telegram으로 문의해주세요.",
   },
   review: {
     title: "리뷰",
@@ -173,6 +177,8 @@ const ko = {
     delete: "삭제",
     save: "저장하기",
     register: "등록하기",
+    restockRequestsTitle: "재입고 알림 신청자",
+    noRestockRequests: "신청자가 없어요.",
     form: {
       category: "카테고리",
       selectCategory: "선택하세요",

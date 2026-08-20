@@ -79,6 +79,9 @@ const mn = {
     buyNow: "Шууд худалдаж авах",
     percentOffSuffix: "% хямдралтай",
     soldOut: "Дууссан",
+    restockEmailPlaceholder: "И-мэйл хаягаа оруулна уу",
+    restockNotify: "Мэдэгдэл авах",
+    restockRequested: "Бүртгэгдлээ! Дахин ирэхэд тантай холбогдоно.",
   },
   orderStatus: {
     pending: "Төлбөр хүлээгдэж байна",
@@ -92,6 +95,7 @@ const mn = {
     empty: "Одоогоор захиалга алга байна.",
     orderNumber: "Захиалгын дугаар",
     total: "Нийт дүн",
+    changeAddressNote: "Хүргэлтийн хаягаа өөрчлөх үү? Захиалгын дугаараа ({orderNumber}) дурдаад WhatsApp эсвэл Telegram-аар холбогдоно уу.",
   },
   review: {
     title: "Сэтгэгдэл",
@@ -173,6 +177,8 @@ const mn = {
     delete: "Устгах",
     save: "Хадгалах",
     register: "Бүртгэх",
+    restockRequestsTitle: "Мэдэгдэл хүссэн жагсаалт",
+    noRestockRequests: "Одоогоор хүсэлт алга байна.",
     form: {
       category: "Ангилал",
       selectCategory: "Сонгоно уу",

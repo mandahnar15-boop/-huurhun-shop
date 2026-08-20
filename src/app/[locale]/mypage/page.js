@@ -85,6 +85,10 @@ export default async function MyPage({ params }) {
               <p className="text-xs font-medium text-mute">
                 {new Date(order.created_at).toLocaleString("ko-KR")}
               </p>
+
+              <p className="border-t border-hairline pt-3 text-xs font-medium text-mute">
+                {dict.mypage.changeAddressNote.replace("{orderNumber}", order.order_number)}
+              </p>
             </div>
           ))}
         </div>
