@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Footer({ dict, locale }) {
   return (
     <footer className="border-t border-hairline bg-canvas px-6 pt-12">
-      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 pb-12 sm:grid-cols-4">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 pb-12 sm:grid-cols-3">
         {dict.footer.columns.map((col) => (
           <div key={col.title} className="flex flex-col gap-3">
             <p className="text-base font-medium text-ink">{col.title}</p>

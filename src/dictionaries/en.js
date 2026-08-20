@@ -204,7 +204,7 @@ const en = {
       {
         title: "Help",
         links: [
-          { label: "FAQ", href: "#" },
+          { label: "FAQ", href: "/faq" },
           { label: "WhatsApp", href: "https://wa.me/97689834771" },
           { label: "Telegram", href: "https://t.me/+97689834771" },
         ],
@@ -212,17 +212,8 @@ const en = {
       {
         title: "Company",
         links: [
-          { label: "Our Story", href: "#" },
-          { label: "Careers", href: "#" },
-          { label: "Sustainability", href: "#" },
-        ],
-      },
-      {
-        title: "Promotions",
-        links: [
-          { label: "Membership Perks", href: "#" },
-          { label: "Coupons", href: "#" },
-          { label: "Events", href: "#" },
+          { label: "Our Story", href: "/brand-story" },
+          { label: "Careers", href: "/careers" },
         ],
       },
     ],
@@ -251,6 +242,33 @@ const en = {
         { heading: "Delivery Time", body: "Delivered within 2-5 days after payment is confirmed. 1-2 days within Ulaanbaatar, 3-5 days for other regions." },
         { heading: "Shipping Fee", body: "Shipping is 5,000₩, and free on orders over 50,000₩." },
         { heading: "Tracking", body: "Once your order ships, you can check its status on your My Page." },
+      ],
+    },
+    faq: {
+      title: "FAQ",
+      sections: [
+        { heading: "How long does shipping take?", body: "Orders are delivered within 2-5 days after payment is confirmed — 1-2 days within Ulaanbaatar, 3-5 days for other regions." },
+        { heading: "Can I exchange or return an item?", body: "Yes, within 7 days of receiving your order. See the Exchanges & Returns page for details." },
+        { heading: "How do I pay?", body: "Payment is by bank transfer (TDB Bank). After placing an order, transfer the exact amount to the account shown, and we'll start preparing your order once it's confirmed." },
+        { heading: "How do I choose my size?", body: "Sizing can vary by item. Check the Size Guide page for detailed measurements." },
+        { heading: "Where can I check my order status?", body: "Sign in and check your order status (payment confirmed, shipped, etc.) on My Page." },
+        { heading: "How do I contact you?", body: "Reach out via WhatsApp or Telegram — we'll get back to you as soon as we can." },
+      ],
+    },
+    brandStory: {
+      title: "Our Story",
+      sections: [
+        {
+          heading: "HUURHUN SHOP",
+          body: "HUURHUN SHOP is an online shop for Mongolian women, offering comfortable yet trendy everyday looks. We focus on good materials at fair prices, so you can enjoy style without the extra cost.",
+        },
+      ],
+    },
+    careers: {
+      title: "Careers",
+      sections: [
+        { heading: "Open Positions", body: "We don't have any open positions right now. We'll share updates here when that changes." },
+        { heading: "Questions", body: "Feel free to reach out via WhatsApp or Telegram." },
       ],
     },
     returns: {
